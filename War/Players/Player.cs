@@ -10,6 +10,7 @@ namespace War.Players
     public class Player : Playable
     {
         public int id;
+        public bool isValid;
        
 
 

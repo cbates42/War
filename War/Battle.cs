@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using War.Players;
 using Services;
 using Services.Model;
+using Services.Logger;
 
 namespace War
 {
@@ -17,6 +18,7 @@ namespace War
         private List<Card.Card> _pot = new List<Card.Card>();
         public int turns = 0;
         public Service service = new Service();
+        public DbLogger logger = new DbLogger();
 
         public Battle(Player player, CPU cpu)
         {
@@ -34,23 +36,23 @@ namespace War
             turns++;
             Console.WriteLine($"Turn: {turns}");
             Console.WriteLine($"You have: {player.hand.Count} cards. CPU has: {cpu.hand.Count} cards.");
-            // Each player draws a card
+            // player & cpu draw
             Card.Card playerCard = player.Draw();
             Card.Card cpuCard = cpu.Draw();
 
             Console.WriteLine($"Player draws {playerCard.PrintName()}");
             Console.WriteLine($"CPU draws {cpuCard.PrintName()}");
 
-            // Add cards to the pot
+            // add cards to the pot, leaves them there if war happens
             _pot.Add(playerCard);
             _pot.Add(cpuCard);
 
-            // Compare cards
+            // compares cards
             int result = Compare(playerCard.value, cpuCard.value);
 
             if (result > 0)
             {
-                // Player wins
+                // player wins
                 Console.WriteLine("Player wins!");
                 player.hand.AddRange(_pot);
                 _pot.Clear();
@@ -84,12 +86,12 @@ namespace War
             }
             else
             {
-                // War!
+                // war
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("War!");
-
-                if (player.hand.Count < 4 || cpu.hand.Count < 4)
+               
+                if (player.hand.Count < 5 || cpu.hand.Count < 5)
                 {
-                    // Not enough cards for war
                     Console.WriteLine("Not enough cards for war!");
 
                     if(player.hand.Count < cpu.hand.Count)
@@ -100,15 +102,16 @@ namespace War
                     return false;
                 }
 
-                // Add cards to the pot
-                _pot.AddRange(player.hand.Take(4));
-                _pot.AddRange(cpu.hand.Take(4));
+                // add cards to the pot
+                _pot.AddRange(player.hand.Take(5));
+                _pot.AddRange(cpu.hand.Take(5));
 
-                // Remove cards from each player's hand
-                player.hand.RemoveRange(0, 4);
-                cpu.hand.RemoveRange(0, 4);
+                // remove cards from each player's hand
+                player.hand.RemoveRange(0, 5);
+                cpu.hand.RemoveRange(0, 5);
 
-                // Play another battle
+            
+                // war-specific loop
                 return Play();
             }
 

@@ -56,6 +56,18 @@
       <FileName>Card\Deck.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Services.Model.CardModel">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Services.Model.PlayerModel">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Services.Service">
+    <Position X="10.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
   <Enum Name="War.Card.Suit">
     <Position X="7.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>

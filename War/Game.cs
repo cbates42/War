@@ -7,6 +7,7 @@ using War.Card;
 using War.Players;
 using Services;
 using Services.Model;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace War
@@ -21,7 +22,6 @@ namespace War
 
         public Game() 
         {
-           
             InitializeGame();
         }
 
@@ -29,10 +29,34 @@ namespace War
         {
             Console.WriteLine("What is your name?");
             player.name = Console.ReadLine();
+            Validate(player);
+            if(!player.isValid)
+            {
+                InitializeGame();
+            }
+
             cards = deck.deck;
+            //both players get half of the deck
          player.FillHand(cards);
          cpu.FillHand(cards);
             War();
+        }
+        public void Validate(Player _player)
+        {
+            List<ValidationResult> errors = new List<ValidationResult>();
+            var validationContext = new ValidationContext(_player, null, null);
+
+            _player.isValid = System.ComponentModel.DataAnnotations.Validator.TryValidateObject(_player, validationContext, errors, true);
+
+            foreach (var error in errors)
+            {
+                foreach (var mem in error.MemberNames)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: Reason:{error.ErrorMessage}");
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
 
         public void War()
@@ -40,9 +64,13 @@ namespace War
             Battle battle = new Battle(player, cpu);
             while (player.hand.Count > 0 && cpu.hand.Count > 0)
             {
+                //continue looping while both players have more than 0 cards
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
                 bool continuePlay = battle.Play();
+                Console.ReadLine();
 
-                if(!continuePlay)
+                if (!continuePlay)
                 {
                     Console.WriteLine("Game over.");
                     break;
@@ -60,6 +88,7 @@ namespace War
                 Console.WriteLine("You lost.");
             }
 
+            //update database
             PlayerModel model = new PlayerModel();
             model.name = player.name;
             model.turns = battle.turns;
@@ -67,6 +96,11 @@ namespace War
             service.InsertModel(model);
             service.APIInsertPlayer(model);
 
+            End();
+        }
+
+        public static void End()
+        {
             Console.WriteLine("Press any key to play again!");
             Console.ReadKey();
             Console.Clear();

@@ -1,0 +1,10 @@
+C:\Users\maxus\source\repos\War\SQLData\bin\Debug\SQLData.dacpac
+C:\Users\maxus\source\repos\War\SQLData\bin\Debug\SQLData.dll
+C:\Users\maxus\source\repos\War\SQLData\bin\Debug\SQLData.pdb
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\SQLData.sqlproj.AssemblyReference.cache
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\Model.xml
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\refactor.xml
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\postdeploy.sql
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\predeploy.sql
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\SQLData.dll
+C:\Users\maxus\source\repos\War\SQLData\obj\Debug\SQLData.pdb

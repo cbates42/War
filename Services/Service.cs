@@ -149,7 +149,7 @@ namespace Services
         }
 
 
-        private void PrepConnection()
+        public void PrepConnection()
         {
             SqlConnectionStringBuilder connBldr = new SqlConnectionStringBuilder();
             connBldr.DataSource = $"(localdb)\\MSSQLLocalDB";
